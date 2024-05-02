@@ -15,10 +15,16 @@ const resetButton = document.querySelector("#reset");
 const winningScoreselect = document.querySelector("#winningScore");
 const result = document.querySelector("#result");
 
+winningScoreselect.addEventListener("change", function () {
+    winningScore = parseInt(this.value);
+    reset();
+});
+
 
 let winningScore = 3;
 let isGameOver = false;
 let isDuce = false;
+
 function updateScore(player, opponent) {
     if (!isGameOver) {
         player.score += 1;
@@ -75,10 +81,7 @@ p2.button.addEventListener("click", function () {
 
 resetButton.addEventListener("click", reset);
 
-winningScoreselect.addEventListener("change", function () {
-    winningScore = parseInt(this.value);
-    reset();
-});
+
 
 function reset() {
     isGameOver = false;
