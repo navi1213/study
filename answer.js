@@ -1,0 +1,61 @@
+const p1 = {
+    score: 0,
+    button: document.querySelector('#p1Button'),
+    display: document.querySelector('#p1Display')
+}
+
+const p2 = {
+    score: 0,
+    button: document.querySelector('#p2Button'),
+    display: document.querySelector('#p2Display')
+}
+
+const resetButton = document.querySelector('#reset');
+const winningScoreSelect = document.querySelector('#winningScore');
+
+let p1Score = 0;
+let p2Score = 0;
+let winningScore = 3;
+let isGameOver = false;
+
+// 得点を追加したときに走る関数
+function updateScores(player, opponent) {
+    if (!isGameOver) {
+        player.score += 1;
+        player.display.textContent = player.score;
+        if (player.score === winningScore) {
+            isGameOver = true;
+            player.display.classList.add('has-text-success');
+            opponent.display.classList.add('has-text-danger');
+            player.button.disabled = true;
+            opponent.button.disabled = true;
+        }
+    }
+}
+// 得点を追加するボタンを押したとき
+p1.button.addEventListener('click', function () {
+    updateScores(p1, p2);
+});
+
+p2.button.addEventListener('click', function () {
+    updateScores(p2, p1);
+});
+// 先取点が変更されたら先取点を更新してリセット
+winningScoreSelect.addEventListener('change', function () {
+    winningScore = parseInt(this.value);
+    reset();
+});
+
+//リセットボタンが押されたら実行
+resetButton.addEventListener('click', reset);
+
+//得点をリセットする関数
+function reset() {
+    isGameOver = false;
+    for (let p of [p1, p2]) {
+        p.score = 0;
+        p.display.textContent = 0;
+        p.display.classList.remove('has-text-success', 'has-text-danger');
+        p.button.disabled = false;
+    }
+}
